@@ -335,10 +335,10 @@
                 <!-- Header -->
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
                     <div>
-                        <h1 class="text-3xl sm:text-4xl font-black">
-                            🚀 Painel de Controle
+                        <h1 class="text-3xl sm:text-4xl font-black flex items-center gap-3">
+                            🤖 Conheça o AFY Bot
                         </h1>
-                        <p class="text-slate-500 mt-1 text-sm">Gerencie seu robô de automação AFY</p>
+                        <p class="text-slate-500 mt-1 text-sm">Robô inteligente de automação para afiliados — avalie e dê sugestões! 🚀</p>
                     </div>
                     <div class="flex items-center gap-3">
                         <span class="text-xs text-slate-500">
@@ -347,293 +347,332 @@
                     </div>
                 </div>
 
-                <!-- Stats Grid -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <div class="glass-card stat-card rounded-2xl p-5">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center border border-purple-500/20">
-                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                                </svg>
+                <!-- ===== BOT OVERVIEW ===== -->
+                <div class="glass-card rounded-2xl p-6 lg:p-8 mb-8 border-purple-500/20">
+                    <div class="grid lg:grid-cols-2 gap-8 items-center">
+                        <div class="space-y-4">
+                            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-purple-500/10 rounded-full border border-purple-500/20 text-sm text-purple-300">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                Projeto em Desenvolvimento
                             </div>
-                            <span class="badge badge-sm bg-emerald-500/20 text-emerald-400 border-emerald-500/20">+12%</span>
-                        </div>
-                        <div class="text-3xl font-black text-white mb-1">127</div>
-                        <div class="text-xs text-slate-500">Vídeos Publicados</div>
-                    </div>
-
-                    <div class="glass-card stat-card rounded-2xl p-5">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center border border-blue-500/20">
-                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                </svg>
-                            </div>
-                            <span class="badge badge-sm bg-emerald-500/20 text-emerald-400 border-emerald-500/20">+8%</span>
-                        </div>
-                        <div class="text-3xl font-black text-white mb-1">12.8K</div>
-                        <div class="text-xs text-slate-500">Visualizações</div>
-                    </div>
-
-                    <div class="glass-card stat-card rounded-2xl p-5">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/20">
-                                <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                            </div>
-                            <span class="badge badge-sm bg-emerald-500/20 text-emerald-400 border-emerald-500/20">+15%</span>
-                        </div>
-                        <div class="text-3xl font-black text-white mb-1">R$ 3.2K</div>
-                        <div class="text-xs text-slate-500">Comissões</div>
-                    </div>
-
-                    <div class="glass-card stat-card rounded-2xl p-5">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="w-10 h-10 rounded-xl bg-pink-500/20 flex items-center justify-center border border-pink-500/20">
-                                <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="text-3xl font-black text-white mb-1">89</div>
-                        <div class="text-xs text-slate-500">Vendas Realizadas</div>
-                    </div>
-                </div>
-
-                <!-- Main Grid -->
-                <div class="grid lg:grid-cols-3 gap-6 mb-8">
-                    <!-- Bot Status -->
-                    <div class="lg:col-span-2 glass-card rounded-2xl p-6">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-lg font-bold flex items-center gap-2">
-                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                </svg>
-                                Status do Robô
+                            <h2 class="text-2xl lg:text-3xl font-black">
+                                O que é o <span class="text-gradient">AFY</span>?
                             </h2>
-                            <span class="flex items-center gap-2 text-xs">
-                                <span class="status-dot active pulse"></span>
-                                <span class="text-emerald-400 font-medium">Ativo</span>
-                            </span>
-                        </div>
-
-                        <!-- Bot info cards -->
-                        <div class="grid sm:grid-cols-2 gap-4 mb-4">
-                            <div class="bg-white/5 rounded-2xl p-4">
-                                <div class="text-xs text-slate-500 mb-1">Plataformas Conectadas</div>
-                                <div class="flex items-center gap-3 mt-2">
-                                    <span class="text-xl tooltip" title="Instagram">📸</span>
-                                    <span class="text-xl tooltip" title="TikTok">🎵</span>
-                                    <span class="text-xl tooltip" title="Facebook">👍</span>
-                                    <span class="text-xl tooltip" title="YouTube Shorts">▶️</span>
-                                    <span class="text-xl tooltip" title="Pinterest" style="opacity:0.4;">📌</span>
+                            <p class="text-slate-400 leading-relaxed">
+                                O <strong class="text-white">AFY AutoBot</strong> é um robô que publica vídeos automaticamente
+                                em múltiplas redes sociais — <strong class="text-purple-300">Instagram</strong>, 
+                                <strong class="text-purple-300">TikTok</strong>, <strong class="text-purple-300">Facebook</strong>, 
+                                <strong class="text-purple-300">YouTube Shorts</strong> e <strong class="text-purple-300">Pinterest</strong>.
+                            </p>
+                            <div class="space-y-2">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                    <span class="text-sm text-slate-300"><strong>Sem API Keys:</strong> Usa navegador real (Chrome) — você faz login 1 vez e o robô salva a sessão</span>
                                 </div>
-                            </div>
-                            <div class="bg-white/5 rounded-2xl p-4">
-                                <div class="text-xs text-slate-500 mb-1">Próximo Post</div>
-                                <div class="text-xl font-bold text-purple-400">12:00</div>
-                                <div class="text-xs text-slate-500 mt-1">Agendado automaticamente</div>
-                            </div>
-                            <div class="bg-white/5 rounded-2xl p-4">
-                                <div class="text-xs text-slate-500 mb-1">IA de Legendas</div>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-sm font-medium text-emerald-400">Gemini Ativo</span>
-                                    <span class="text-xs text-slate-600">ou</span>
-                                    <span class="text-sm text-slate-400">ChatGPT</span>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                    <span class="text-sm text-slate-300"><strong>IA Generativa:</strong> Legendas e hashtags automáticas (Gemini grátis ou ChatGPT)</span>
                                 </div>
-                            </div>
-                            <div class="bg-white/5 rounded-2xl p-4">
-                                <div class="text-xs text-slate-500 mb-1">Modo Respostas</div>
-                                <div class="flex items-center gap-2">
-                                    <span class="w-2 h-2 rounded-full bg-emerald-500 pulse"></span>
-                                    <span class="text-sm font-medium text-emerald-400">Automático</span>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                    <span class="text-sm text-slate-300"><strong>Cross-Posting:</strong> Um vídeo publicado nas contas de vários afiliados</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                    <span class="text-sm text-slate-300"><strong>Agendamento:</strong> Posta automaticamente nos horários que você definir</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                    <span class="text-sm text-slate-300"><strong>Respostas Inteligentes:</strong> IA responde comentários automaticamente</span>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Schedule -->
-                        <div class="bg-white/5 rounded-2xl p-4">
-                            <div class="flex items-center justify-between mb-3">
-                                <span class="text-sm font-medium text-slate-300">Agendamento</span>
-                                <span class="text-xs text-slate-500">Verifica a cada 5 min</span>
+                        
+                        <!-- Code example -->
+                        <div class="bg-black/40 rounded-2xl p-5 border border-white/5 font-mono text-sm leading-relaxed">
+                            <div class="flex items-center gap-2 mb-3 text-xs text-slate-600">
+                                <span class="w-2 h-2 rounded-full bg-red-500/80"></span>
+                                <span class="w-2 h-2 rounded-full bg-yellow-500/80"></span>
+                                <span class="w-2 h-2 rounded-full bg-green-500/80"></span>
+                                <span class="ml-2">afy@bot:~$</span>
                             </div>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-3 py-1.5 bg-purple-500/20 border border-purple-500/20 rounded-xl text-sm font-mono text-purple-300">08:00</span>
-                                <span class="px-3 py-1.5 bg-purple-500/20 border border-purple-500/20 rounded-xl text-sm font-mono text-purple-300">12:00</span>
-                                <span class="px-3 py-1.5 bg-purple-500/20 border border-purple-500/20 rounded-xl text-sm font-mono text-purple-300">18:00</span>
-                                <span class="px-3 py-1.5 bg-white/5 border border-white/5 rounded-xl text-sm text-slate-500">+ Adicionar</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Quick Actions -->
-                    <div class="glass-card rounded-2xl p-6">
-                        <h2 class="text-lg font-bold flex items-center gap-2 mb-6">
-                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                            </svg>
-                            Ações Rápidas
-                        </h2>
-                        <div class="space-y-3">
-                            <button class="w-full bg-white/5 hover:bg-purple-500/20 border border-white/5 hover:border-purple-500/30 rounded-2xl p-4 text-left transition-all flex items-center gap-3 group">
-                                <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-semibold">Upload de Vídeo</div>
-                                    <div class="text-xs text-slate-500">MP4, MOV, AVI</div>
-                                </div>
-                            </button>
-                            <button class="w-full bg-white/5 hover:bg-blue-500/20 border border-white/5 hover:border-blue-500/30 rounded-2xl p-4 text-left transition-all flex items-center gap-3 group">
-                                <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-semibold">Configurar Redes</div>
-                                    <div class="text-xs text-slate-500">Gerenciar conexões</div>
-                                </div>
-                            </button>
-                            <button class="w-full bg-white/5 hover:bg-emerald-500/20 border border-white/5 hover:border-emerald-500/30 rounded-2xl p-4 text-left transition-all flex items-center gap-3 group">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-semibold">Ver Campanhas</div>
-                                    <div class="text-xs text-slate-500">Cross-posting ativo</div>
-                                </div>
-                            </button>
-                            <button class="w-full bg-white/5 hover:bg-amber-500/20 border border-white/5 hover:border-amber-500/30 rounded-2xl p-4 text-left transition-all flex items-center gap-3 group">
-                                <div class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-semibold">Relatórios</div>
-                                    <div class="text-xs text-slate-500">Métricas detalhadas</div>
-                                </div>
-                            </button>
+                            <span class="text-slate-500"># 🚀 AFY AutoBot</span><br>
+                            <span class="text-slate-500"># Automação sem API Keys!</span><br><br>
+                            <span class="text-purple-400">from</span> <span class="text-slate-200">afy</span> <span class="text-purple-400">import</span> <span class="text-amber-400">AutoBot</span><br><br>
+            bot = <span class="text-amber-400">AutoBot</span>()<br>
+            <span class="text-blue-400">bot</span>.<span class="text-amber-400">login</span>(<span class="text-green-400">"Instagram"</span>)  <span class="text-slate-500"># Login 1x</span><br>
+            <span class="text-blue-400">bot</span>.<span class="text-amber-400">post</span>(<span class="text-green-400">"video.mp4"</span>)       <span class="text-slate-500"># Posta automático</span><br>
+            <span class="text-blue-400">bot</span>.<span class="text-amber-400">schedule</span>(<span class="text-green-400">"08:00, 12:00, 18:00"</span>)<br>
+            <span class="text-blue-400">bot</span>.<span class="text-amber-400">auto_reply</span>()              <span class="text-slate-500"># IA responde</span><br><br>
+                            <span class="text-slate-500"># ✅ 127 vídeos publicados</span><br>
+                            <span class="text-slate-500"># 💰 R$ 3.2K em comissões</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Secondary Grid -->
-                <div class="grid lg:grid-cols-2 gap-6">
-                    <!-- Recent Activity -->
-                    <div class="glass-card rounded-2xl p-6">
-                        <h2 class="text-lg font-bold flex items-center gap-2 mb-6">
-                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            Atividade Recente
-                        </h2>
-                        <div class="space-y-4">
-                            <div class="flex items-start gap-3">
-                                <div class="w-2 h-2 rounded-full bg-emerald-500 mt-2 flex-shrink-0"></div>
-                                <div>
-                                    <div class="text-sm"><span class="font-medium">Instagram</span> — Vídeo publicado com sucesso</div>
-                                    <div class="text-xs text-slate-500 mt-0.5">Há 12 minutos</div>
+                <!-- ===== PLATFORMS ===== -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
+                    <div class="glass-card rounded-2xl p-4 text-center hover:border-purple-500/30 transition-all">
+                        <span class="text-3xl block mb-1">📸</span>
+                        <span class="text-sm font-medium">Instagram</span>
+                        <span class="text-xs text-emerald-400 block mt-1">✅ Funcional</span>
+                    </div>
+                    <div class="glass-card rounded-2xl p-4 text-center hover:border-purple-500/30 transition-all">
+                        <span class="text-3xl block mb-1">🎵</span>
+                        <span class="text-sm font-medium">TikTok</span>
+                        <span class="text-xs text-emerald-400 block mt-1">✅ Funcional</span>
+                    </div>
+                    <div class="glass-card rounded-2xl p-4 text-center hover:border-purple-500/30 transition-all">
+                        <span class="text-3xl block mb-1">👍</span>
+                        <span class="text-sm font-medium">Facebook</span>
+                        <span class="text-xs text-emerald-400 block mt-1">✅ Funcional</span>
+                    </div>
+                    <div class="glass-card rounded-2xl p-4 text-center hover:border-purple-500/30 transition-all">
+                        <span class="text-3xl block mb-1">▶️</span>
+                        <span class="text-sm font-medium">YouTube Shorts</span>
+                        <span class="text-xs text-amber-400 block mt-1">🔄 Testando</span>
+                    </div>
+                    <div class="glass-card rounded-2xl p-4 text-center hover:border-purple-500/30 transition-all">
+                        <span class="text-3xl block mb-1">📌</span>
+                        <span class="text-sm font-medium">Pinterest</span>
+                        <span class="text-xs text-amber-400 block mt-1">🔄 Em breve</span>
+                    </div>
+                </div>
+
+                <!-- ===== BOT COMMANDS ===== -->
+                <div class="glass-card rounded-2xl p-6 mb-8">
+                    <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
+                        <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        Comandos do Bot
+                    </h2>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="bg-white/5 rounded-2xl p-4 border border-white/5 hover:border-purple-500/20 transition-all">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="px-3 py-1 bg-purple-500/20 rounded-lg text-purple-300 text-xs font-mono font-bold">menu</span>
+                                <span class="text-sm font-medium">Menu Interativo</span>
+                            </div>
+                            <p class="text-xs text-slate-500">Abre o menu principal com todas as opções do bot</p>
+                        </div>
+                        <div class="bg-white/5 rounded-2xl p-4 border border-white/5 hover:border-blue-500/20 transition-all">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="px-3 py-1 bg-blue-500/20 rounded-lg text-blue-300 text-xs font-mono font-bold">login</span>
+                                <span class="text-sm font-medium">Login Assistido</span>
+                            </div>
+                            <p class="text-xs text-slate-500">Abre Chrome para você fazer login na rede social (1 vez apenas)</p>
+                        </div>
+                        <div class="bg-white/5 rounded-2xl p-4 border border-white/5 hover:border-emerald-500/20 transition-all">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="px-3 py-1 bg-emerald-500/20 rounded-lg text-emerald-300 text-xs font-mono font-bold">post</span>
+                                <span class="text-sm font-medium">Postar Vídeo</span>
+                            </div>
+                            <p class="text-xs text-slate-500">Faz upload e publica vídeo automaticamente na plataforma</p>
+                        </div>
+                        <div class="bg-white/5 rounded-2xl p-4 border border-white/5 hover:border-pink-500/20 transition-all">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="px-3 py-1 bg-pink-500/20 rounded-lg text-pink-300 text-xs font-mono font-bold">monitor</span>
+                                <span class="text-sm font-medium">Monitorar Comentários</span>
+                            </div>
+                            <p class="text-xs text-slate-500">IA responde comentários automaticamente nos seus posts</p>
+                        </div>
+                        <div class="bg-white/5 rounded-2xl p-4 border border-white/5 hover:border-amber-500/20 transition-all">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="px-3 py-1 bg-amber-500/20 rounded-lg text-amber-300 text-xs font-mono font-bold">sessoes</span>
+                                <span class="text-sm font-medium">Listar Sessões</span>
+                            </div>
+                            <p class="text-xs text-slate-500">Mostra todas as contas conectadas e sessões salvas</p>
+                        </div>
+                        <div class="bg-white/5 rounded-2xl p-4 border border-white/5 hover:border-purple-500/20 transition-all">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="px-3 py-1 bg-purple-500/20 rounded-lg text-purple-300 text-xs font-mono font-bold">agendar</span>
+                                <span class="text-sm font-medium">Configurar Agenda</span>
+                            </div>
+                            <p class="text-xs text-slate-500">Define os horários de postagem automática (ex: 08:00, 12:00, 18:00)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== HOW TO USE ===== -->
+                <div class="glass-card rounded-2xl p-6 mb-8">
+                    <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
+                        <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                        </svg>
+                        Como Usar o Bot
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 bg-white/5 rounded-2xl p-4">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-sm font-bold flex-shrink-0">1</div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Instalar dependências</h3>
+                                <div class="bg-black/40 rounded-xl p-3 font-mono text-sm text-slate-300">
+                                    pip install playwright<br>
+                                    playwright install chromium
                                 </div>
                             </div>
-                            <div class="flex items-start gap-3">
-                                <div class="w-2 h-2 rounded-full bg-emerald-500 mt-2 flex-shrink-0"></div>
-                                <div>
-                                    <div class="text-sm"><span class="font-medium">TikTok</span> — Vídeo publicado com sucesso</div>
-                                    <div class="text-xs text-slate-500 mt-0.5">Há 15 minutos</div>
+                        </div>
+                        <div class="flex items-start gap-4 bg-white/5 rounded-2xl p-4">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-sm font-bold flex-shrink-0">2</div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Executar o bot</h3>
+                                <div class="bg-black/40 rounded-xl p-3 font-mono text-sm text-slate-300">
+                                    python main.py
                                 </div>
                             </div>
-                            <div class="flex items-start gap-3">
-                                <div class="w-2 h-2 rounded-full bg-emerald-500 mt-2 flex-shrink-0"></div>
-                                <div>
-                                    <div class="text-sm"><span class="font-medium">Facebook</span> — Vídeo publicado com sucesso</div>
-                                    <div class="text-xs text-slate-500 mt-0.5">Há 18 minutos</div>
-                                </div>
+                        </div>
+                        <div class="flex items-start gap-4 bg-white/5 rounded-2xl p-4">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center text-sm font-bold flex-shrink-0">3</div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Fazer login (1 vez)</h3>
+                                <p class="text-sm text-slate-400">Opção 1 → Chrome abre, você faz login manualmente → sessão salva!</p>
                             </div>
-                            <div class="flex items-start gap-3">
-                                <div class="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
-                                <div>
-                                    <div class="text-sm"><span class="font-medium">IA</span> — Legenda gerada para novo vídeo</div>
-                                    <div class="text-xs text-slate-500 mt-0.5">Há 25 minutos</div>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-3">
-                                <div class="w-2 h-2 rounded-full bg-purple-500 mt-2 flex-shrink-0"></div>
-                                <div>
-                                    <div class="text-sm"><span class="font-medium">Sistema</span> — Agendador verificado, tudo ok</div>
-                                    <div class="text-xs text-slate-500 mt-0.5">Há 30 minutos</div>
-                                </div>
+                        </div>
+                        <div class="flex items-start gap-4 bg-white/5 rounded-2xl p-4">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-rose-600 to-pink-600 flex items-center justify-center text-sm font-bold flex-shrink-0">4</div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Postar e agendar</h3>
+                                <p class="text-sm text-slate-400">Opção 2 = Postar vídeo • Opção 6 = Configurar agendamento automático</p>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Configuration -->
-                    <div class="glass-card rounded-2xl p-6">
-                        <h2 class="text-lg font-bold flex items-center gap-2 mb-6">
-                            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
-                            Configuração
-                        </h2>
-
-                        <div class="space-y-4">
-                            <div class="bg-white/5 rounded-xl p-4">
-                                <div class="flex items-center justify-between mb-1">
-                                    <span class="text-sm font-medium">IA Provider</span>
-                                    <span class="text-xs text-emerald-400">Gemini (Grátis)</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-bar-fill" style="width: 100%;"></div>
-                                </div>
+                <!-- ===== CONFIGURATION ===== -->
+                <div class="glass-card rounded-2xl p-6 mb-8">
+                    <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
+                        <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        Configuração Atual
+                    </h2>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <div class="text-xs text-slate-500 mb-1">IA Provider</div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                <span class="text-sm font-medium text-emerald-400">Gemini (Grátis)</span>
                             </div>
-                            <div class="bg-white/5 rounded-xl p-4">
-                                <div class="flex items-center justify-between mb-1">
-                                    <span class="text-sm font-medium">Posts Hoje</span>
-                                    <span class="text-xs text-blue-400">3 / 3</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-bar-fill" style="width: 100%;"></div>
-                                </div>
-                            </div>
-                            <div class="bg-white/5 rounded-xl p-4">
-                                <div class="flex items-center justify-between mb-1">
-                                    <span class="text-sm font-medium">Armazenamento</span>
-                                    <span class="text-xs text-amber-400">2.4 GB / 10 GB</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-bar-fill" style="width: 24%;"></div>
-                                </div>
-                            </div>
-                            <div class="bg-white/5 rounded-xl p-4">
-                                <div class="flex items-center justify-between mb-1">
-                                    <span class="text-sm font-medium">Redes Conectadas</span>
-                                    <span class="text-xs text-emerald-400">4 / 5</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-bar-fill" style="width: 80%;"></div>
-                                </div>
+                            <div class="text-xs text-slate-600 mt-1">Fallback: ChatGPT</div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <div class="text-xs text-slate-500 mb-1">Horários de Postagem</div>
+                            <div class="flex flex-wrap gap-1 mt-1">
+                                <span class="px-2 py-0.5 bg-purple-500/20 rounded text-xs font-mono text-purple-300">08:00</span>
+                                <span class="px-2 py-0.5 bg-purple-500/20 rounded text-xs font-mono text-purple-300">12:00</span>
+                                <span class="px-2 py-0.5 bg-purple-500/20 rounded text-xs font-mono text-purple-300">18:00</span>
                             </div>
                         </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <div class="text-xs text-slate-500 mb-1">Respostas Automáticas</div>
+                            <span class="text-sm font-medium text-emerald-400">✅ Ativado</span>
+                            <div class="text-xs text-slate-600 mt-1">A cada 60 minutos</div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <div class="text-xs text-slate-500 mb-1">Idioma</div>
+                            <span class="text-sm font-medium">Português (Brasil)</span>
+                            <div class="text-xs text-slate-600 mt-1">🇧🇷</div>
+                        </div>
+                    </div>
 
-                        <!-- Change Password -->
-                        <div class="mt-6 pt-4 border-t border-white/5">
-                            <button onclick="showChangePassword()" class="text-sm text-slate-500 hover:text-purple-400 transition-colors flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                    <div class="mt-6 pt-4 border-t border-white/5">
+                        <button onclick="showChangePassword()" class="text-sm text-slate-500 hover:text-purple-400 transition-colors flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                            </svg>
+                            Alterar Senha do Dashboard
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ===== FEEDBACK ===== -->
+                <div class="glass-card rounded-2xl p-6 lg:p-8 border-pink-500/20 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-pink-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-600 to-rose-600 flex items-center justify-center shadow-lg shadow-pink-600/20">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                                 </svg>
-                                Alterar Senha do Dashboard
-                            </button>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold">💬 Sua Opinião é Importante!</h2>
+                                <p class="text-slate-400 text-sm">Ajude a melhorar o AFY — compartilhe suas ideias e sugestões</p>
+                            </div>
+                        </div>
+
+                        <div class="grid lg:grid-cols-2 gap-6">
+                            <!-- Feedback Suggestions -->
+                            <div class="space-y-3">
+                                <p class="text-sm text-slate-400 mb-4">
+                                    <strong class="text-white">Queremos saber sua opinião!</strong> O que você acha do AFY?
+                                    O que poderia melhorar? Que funcionalidades gostaria de ver?
+                                </p>
+                                <div class="bg-white/5 rounded-2xl p-4">
+                                    <h3 class="text-sm font-semibold text-purple-300 mb-2">📋 Perguntas para avaliar:</h3>
+                                    <ul class="space-y-2 text-sm text-slate-400">
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-purple-400 mt-0.5">•</span>
+                                            A ideia do bot faz sentido para você?
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-purple-400 mt-0.5">•</span>
+                                            Que funcionalidades você mais usaria?
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-purple-400 mt-0.5">•</span>
+                                            O que está confuso ou poderia ser melhor explicado?
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-purple-400 mt-0.5">•</span>
+                                            Que outras redes sociais deveríamos suportar?
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-purple-400 mt-0.5">•</span>
+                                            Sugestões de melhoria ou novas funcionalidades?
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Feedback Form -->
+                            <div>
+                                <form id="feedbackForm" onsubmit="sendFeedback(event)" class="space-y-4">
+                                    <div>
+                                        <label class="text-xs text-slate-500 block mb-1.5">Seu nome (opcional)</label>
+                                        <input id="feedbackName" type="text" placeholder="Ex: João" class="password-input w-full rounded-2xl px-4 py-3 text-sm" maxlength="50">
+                                    </div>
+                                    <div>
+                                        <label class="text-xs text-slate-500 block mb-1.5">Sua avaliação</label>
+                                        <div class="flex gap-2 text-2xl" id="starRating">
+                                            <span onclick="setRating(1)" class="cursor-pointer transition-all hover:scale-125 star" data-value="1">☆</span>
+                                            <span onclick="setRating(2)" class="cursor-pointer transition-all hover:scale-125 star" data-value="2">☆</span>
+                                            <span onclick="setRating(3)" class="cursor-pointer transition-all hover:scale-125 star" data-value="3">☆</span>
+                                            <span onclick="setRating(4)" class="cursor-pointer transition-all hover:scale-125 star" data-value="4">☆</span>
+                                            <span onclick="setRating(5)" class="cursor-pointer transition-all hover:scale-125 star" data-value="5">☆</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="text-xs text-slate-500 block mb-1.5">Seu feedback / sugestão</label>
+                                        <textarea id="feedbackMessage" rows="4" placeholder="Conte o que você achou, suas ideias e sugestões..." class="password-input w-full rounded-2xl px-4 py-3 text-sm resize-none" maxlength="1000"></textarea>
+                                        <div class="text-xs text-slate-600 mt-1 text-right"><span id="charCount">0</span>/1000</div>
+                                    </div>
+                                    <button type="submit" class="btn-gradient w-full rounded-2xl py-3 font-bold text-sm flex items-center justify-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                        </svg>
+                                        Enviar Feedback
+                                    </button>
+                                </form>
+                                <p class="text-xs text-slate-600 mt-4 text-center">
+                                    💡 Seu feedback ajuda a moldar o futuro do AFY!
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </main>
     </div>
@@ -862,6 +901,63 @@
                 document.getElementById('loginForm').dispatchEvent(new Event('submit'));
             }
         });
+
+        // ===== STAR RATING =====
+        let currentRating = 0;
+        
+        function setRating(val) {
+            currentRating = val;
+            document.querySelectorAll('.star').forEach(el => {
+                const starVal = parseInt(el.dataset.value);
+                if (starVal <= val) {
+                    el.textContent = '⭐';
+                    el.classList.add('scale-110');
+                } else {
+                    el.textContent = '☆';
+                    el.classList.remove('scale-110');
+                }
+            });
+        }
+
+        // ===== FEEDBACK FORM =====
+        document.getElementById('feedbackMessage')?.addEventListener('input', function() {
+            document.getElementById('charCount').textContent = this.value.length;
+        });
+
+        function sendFeedback(e) {
+            e.preventDefault();
+            const name = document.getElementById('feedbackName').value || 'Anônimo';
+            const message = document.getElementById('feedbackMessage').value.trim();
+            
+            if (!message) {
+                showToast('⚠️', 'Por favor, escreva seu feedback antes de enviar!');
+                return;
+            }
+
+            // Prepare feedback data
+            const feedback = {
+                name: name,
+                rating: currentRating,
+                message: message,
+                date: new Date().toLocaleString('pt-BR'),
+                url: window.location.href
+            };
+
+            // Store in localStorage for now (the developer can check)
+            const feedbacks = JSON.parse(localStorage.getItem('afy_feedback') || '[]');
+            feedbacks.push(feedback);
+            localStorage.setItem('afy_feedback', JSON.stringify(feedbacks));
+
+            // Show success
+            showToast('✅', 'Feedback enviado com sucesso! Obrigado por ajudar a melhorar o AFY! 🚀');
+            
+            // Reset form
+            document.getElementById('feedbackName').value = '';
+            document.getElementById('feedbackMessage').value = '';
+            document.getElementById('charCount').textContent = '0';
+            setRating(0);
+            document.querySelectorAll('.star').forEach(el => el.textContent = '☆');
+        }
 
         // ===== TOOLTIPS =====
         document.querySelectorAll('.tooltip').forEach(el => {
