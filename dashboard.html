@@ -634,6 +634,14 @@
                                         </li>
                                     </ul>
                                 </div>
+                                
+                                <!-- Received Feedbacks -->
+                                <div id="receivedFeedbacks" class="space-y-3">
+                                    <h3 class="text-sm font-semibold text-emerald-300">📨 Feedbacks Enviados</h3>
+                                    <div id="feedbacksList" class="space-y-2">
+                                        <!-- Será preenchido via JavaScript -->
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Feedback Form -->
@@ -666,7 +674,8 @@
                                     </button>
                                 </form>
                                 <p class="text-xs text-slate-600 mt-4 text-center">
-                                    💡 Seu feedback ajuda a moldar o futuro do AFY!
+                                    💡 Seu feedback aparece abaixo para todos verem!<br>
+                                    <span class="text-slate-700">Assim o desenvolvedor acompanha as sugestões.</span>
                                 </p>
                             </div>
                         </div>
@@ -949,7 +958,7 @@
             localStorage.setItem('afy_feedback', JSON.stringify(feedbacks));
 
             // Show success
-            showToast('✅', 'Feedback enviado com sucesso! Obrigado por ajudar a melhorar o AFY! 🚀');
+            showToast('✅', 'Feedback enviado! Ele já aparece na lista abaixo para todos verem! 🚀');
             
             // Reset form
             document.getElementById('feedbackName').value = '';
@@ -957,7 +966,50 @@
             document.getElementById('charCount').textContent = '0';
             setRating(0);
             document.querySelectorAll('.star').forEach(el => el.textContent = '☆');
+            
+            // Refresh the feedbacks list
+            renderFeedbacks();
         }
+
+        // ===== RENDER FEEDBACKS =====
+        function renderFeedbacks() {
+            const container = document.getElementById('feedbacksList');
+            if (!container) return;
+            
+            const feedbacks = JSON.parse(localStorage.getItem('afy_feedback') || '[]');
+            
+            if (feedbacks.length === 0) {
+                container.innerHTML = '<div class="text-xs text-slate-600 text-center py-4">Nenhum feedback enviado ainda. Seja o primeiro! 💬</div>';
+                return;
+            }
+            
+            // Show last 10 feedbacks, most recent first
+            const recent = feedbacks.slice(-10).reverse();
+            
+            container.innerHTML = recent.map((fb, i) => {
+                const stars = fb.rating ? '⭐'.repeat(fb.rating) + '☆'.repeat(5 - fb.rating) : '☆☆☆☆☆';
+                const starsDisplay = fb.rating ? `<span class="text-xs">${stars}</span>` : '';
+                return `
+                    <div class="bg-white/5 rounded-xl p-3 border border-white/5">
+                        <div class="flex items-center justify-between gap-2 mb-1">
+                            <span class="text-xs font-medium text-white">${fb.name || 'Anônimo'}</span>
+                            <span class="text-xs text-slate-600">${fb.date || ''}</span>
+                        </div>
+                        ${starsDisplay}
+                        <p class="text-sm text-slate-300 mt-1 leading-relaxed">${fb.message}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Load feedbacks on page load
+        document.addEventListener('DOMContentLoaded', renderFeedbacks);
+        // Also call it when dashboard appears
+        const origShowDashboard = showDashboard;
+        showDashboard = function() {
+            origShowDashboard();
+            setTimeout(renderFeedbacks, 100);
+        };
 
         // ===== TOOLTIPS =====
         document.querySelectorAll('.tooltip').forEach(el => {
