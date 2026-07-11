@@ -800,6 +800,7 @@
             document.getElementById('dashboardContent').classList.remove('hidden');
             updateClock();
             setInterval(updateClock, 1000);
+            renderFeedbacks();
         }
 
         function handleLogout() {
@@ -1002,14 +1003,12 @@
             }).join('');
         }
 
-        // Load feedbacks on page load
-        document.addEventListener('DOMContentLoaded', renderFeedbacks);
-        // Also call it when dashboard appears
-        const origShowDashboard = showDashboard;
-        showDashboard = function() {
-            origShowDashboard();
-            setTimeout(renderFeedbacks, 100);
-        };
+        // Load feedbacks on page load (se já estiver logado)
+        document.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('afy_hash')) {
+                setTimeout(renderFeedbacks, 200);
+            }
+        });
 
         // ===== TOOLTIPS =====
         document.querySelectorAll('.tooltip').forEach(el => {
