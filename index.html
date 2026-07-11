@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFY 🤖 | Automação Inteligente para Afiliados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.css" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: #0a0a12;
+            color: #e2e8f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-15px) rotate(1deg); }
+            66% { transform: translateY(-8px) rotate(-1deg); }
+        }
+        @keyframes float-delayed {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(139, 92, 246, 0.6), 0 0 80px rgba(139, 92, 246, 0.2); }
+        }
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slide-in-left {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slide-in-right {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes border-glow {
+            0%, 100% { border-color: rgba(139, 92, 246, 0.3); }
+            50% { border-color: rgba(139, 92, 246, 0.7); }
+        }
+        @keyframes scale-in {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float-delayed 7s ease-in-out 1s infinite; }
+        .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+        .animate-gradient { background-size: 200% 200%; animation: gradient-shift 8s ease infinite; }
+        .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+        .animate-shimmer { background-size: 200% 100%; animation: shimmer 3s ease-in-out infinite; }
+        .animate-border-glow { animation: border-glow 2s ease-in-out infinite; }
+
+        /* Reveal animations */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right.visible { opacity: 1; transform: translateX(0); }
+        .reveal-scale { opacity: 0; transform: scale(0.9); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+        /* ===== COMPONENTS ===== */
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .glass-strong {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-6px);
+            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #a78bfa, #60a5fa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-gradient-alt {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .bg-grid {
+            background-image: 
+                linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        .bg-gradient-hero {
+            background: radial-gradient(ellipse at 50% 0%, rgba(139, 92, 246, 0.12) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 20% 0%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+        }
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        /* Feature cards */
+        .feature-icon-wrap {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .feature-card:hover .feature-icon-wrap {
+            transform: scale(1.15) rotate(-8deg);
+        }
+
+        /* Step connectors */
+        .step-line {
+            position: absolute;
+            top: 48px;
+            left: calc(50% + 48px);
+            right: calc(50% - 48px);
+            height: 2px;
+            background: linear-gradient(90deg, rgba(139, 92, 246, 0.5), rgba(59, 130, 246, 0.5), rgba(236, 72, 153, 0.5));
+        }
+
+        /* Navbar */
+        .navbar-scrolled {
+            background: rgba(10, 10, 18, 0.95) !important;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        /* Particles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(139, 92, 246, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Typing effect */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+            color: #a78bfa;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Mobile menu */
+        .mobile-menu-open {
+            max-height: 400px !important;
+            opacity: 1 !important;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a12; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+        /* Code block */
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.875rem;
+            line-height: 1.7;
+            overflow-x: auto;
+        }
+        .code-block .comment { color: #6b7280; }
+        .code-block .keyword { color: #a78bfa; }
+        .code-block .string { color: #34d399; }
+        .code-block .function { color: #60a5fa; }
+        .code-block .variable { color: #fbbf24; }
+
+        /* Testimonial */
+        .testimonial-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px) scale(1.01);
+        }
+
+        /* FAQ */
+        .faq-answer {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .faq-answer.open {
+            grid-template-rows: 1fr;
+        }
+        .faq-answer > div {
+            overflow: hidden;
+        }
+        .faq-chevron {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .faq-chevron.open {
+            transform: rotate(180deg);
+        }
+
+        /* Custom button */
+        .btn-gradient {
+            background: linear-gradient(135deg, #7c3aed, #db2777);
+            border: none;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-gradient:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 32px -8px rgba(124, 58, 237, 0.4);
+        }
+        .btn-gradient-outline {
+            background: transparent;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #c4b5fd;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-gradient-outline:hover {
+            border-color: rgba(139, 92, 246, 0.6);
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Stats counter */
+        .stat-value {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Platform icons hover */
+        .platform-icon {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: grayscale(0.5);
+        }
+        .platform-icon:hover {
+            transform: translateY(-4px) scale(1.1);
+            filter: grayscale(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .step-line { display: none; }
+            .hero-title { font-size: 2.5rem !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== PARTICLES BACKGROUND ===== -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0" style="overflow: hidden;"></div>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav id="navbar" class="glass fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex items-center justify-between h-16 md:h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-600/30 group-hover:shadow-purple-600/50 transition-all group-hover:scale-110 group-hover:rotate-[-5deg]">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-bold text-2xl text-gradient">AFY</span>
+                        <span class="hidden sm:inline text-xs text-slate-500 ml-1 tracking-wider">AUTOBOT</span>
+                    </div>
+                </a>
+
+                <!-- Desktop nav -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#features" class="text-sm text-slate-400 hover:text-white transition-colors relative group">
+                        Funcionalidades
+                        <span class="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-purple-500 to-pink-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#how-it-works" class="text-sm text-slate-400 hover:text-white transition-colors relative group">
+                        Como Funciona
+                        <span class="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-purple-500 to-pink-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#pricing" class="text-sm text-slate-400 hover:text-white transition-colors relative group">
+                        Planos
+                        <span class="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-purple-500 to-pink-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#faq" class="text-sm text-slate-400 hover:text-white transition-colors relative group">
+                        FAQ
+                        <span class="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-purple-500 to-pink-500 transition-all group-hover:w-full"></span>
+                    </a>
+                </div>
+
+                <!-- Right side -->
+                <div class="flex items-center gap-3">
+                    <a href="dashboard.html" class="hidden sm:inline-flex btn-gradient-outline px-4 py-2 rounded-xl text-sm font-medium items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                        Dashboard
+                    </a>
+                    <a href="dashboard.html" class="btn-gradient px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-purple-600/30 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        Acessar Bot
+                    </a>
+                    <!-- Mobile menu button -->
+                    <button id="menuBtn" class="md:hidden p-2 rounded-lg hover:bg-white/5 transition-colors">
+                        <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="md:hidden overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+                <div class="py-4 space-y-2 border-t border-white/5">
+                    <a href="#features" class="block px-4 py-3 rounded-xl text-slate-300 hover:bg-white/5 transition-colors">Funcionalidades</a>
+                    <a href="#how-it-works" class="block px-4 py-3 rounded-xl text-slate-300 hover:bg-white/5 transition-colors">Como Funciona</a>
+                    <a href="#pricing" class="block px-4 py-3 rounded-xl text-slate-300 hover:bg-white/5 transition-colors">Planos</a>
+                    <a href="#faq" class="block px-4 py-3 rounded-xl text-slate-300 hover:bg-white/5 transition-colors">FAQ</a>
+                    <a href="dashboard.html" class="block px-4 py-3 rounded-xl text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 transition-colors font-medium">🔒 Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden bg-grid">
+        <!-- Background effects -->
+        <div class="absolute inset-0 bg-gradient-hero pointer-events-none"></div>
+        <div class="hero-orb w-[500px] h-[500px] bg-purple-600/20 -top-48 -left-48"></div>
+        <div class="hero-orb w-[400px] h-[400px] bg-blue-600/15 top-1/3 -right-32 animate-float-delayed"></div>
+        <div class="hero-orb w-[300px] h-[300px] bg-pink-600/10 bottom-0 left-1/3 animate-float"></div>
+
+        <!-- Orbiting rings -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] hidden lg:block pointer-events-none">
+            <div class="w-full h-full rounded-full border border-purple-500/10 animate-spin-slow"></div>
+            <div class="absolute inset-[60px] rounded-full border border-blue-500/10 animate-spin-slow" style="animation-direction: reverse; animation-duration: 25s;"></div>
+            <div class="absolute inset-[120px] rounded-full border border-pink-500/10 animate-spin-slow" style="animation-duration: 30s;"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 w-full">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[70vh]">
+                <!-- Left Side -->
+                <div class="space-y-8">
+                    <!-- Badge -->
+                    <div class="reveal">
+                        <span class="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 rounded-full border border-purple-500/20 text-sm">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="text-purple-300">Sistema em Produção 🚀</span>
+                        </span>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="space-y-4">
+                        <h1 class="reveal text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.1]">
+                            Publique Vídeos<br>
+                            <span class="text-gradient">Automaticamente</span><br>
+                            <span class="text-slate-400 text-4xl sm:text-5xl lg:text-6xl">em Todas as Redes</span>
+                        </h1>
+                        <p class="reveal text-lg sm:text-xl text-slate-400 leading-relaxed max-w-xl" style="transition-delay: 0.1s;">
+                            Sem API Keys, sem complicação. O <strong class="text-white">AFY</strong> conecta suas redes sociais via navegador real, 
+                            faz upload dos vídeos e a <strong class="text-purple-300">IA</strong> gera legendas automaticamente.
+                        </p>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="reveal flex flex-wrap gap-4" style="transition-delay: 0.2s;">
+                        <a href="dashboard.html" class="btn-gradient px-8 py-4 rounded-2xl text-base font-bold shadow-2xl shadow-purple-600/30 flex items-center gap-3 group">
+                            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-white/20 group-hover:scale-110 transition-transform">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </span>
+                            Acessar o Bot
+                        </a>
+                        <a href="#how-it-works" class="btn-gradient-outline px-8 py-4 rounded-2xl text-base font-medium flex items-center gap-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Ver Como Funciona
+                        </a>
+                    </div>
+
+                    <!-- Social proof -->
+                    <div class="reveal flex flex-wrap items-center gap-6 pt-2" style="transition-delay: 0.3s;">
+                        <div class="flex -space-x-3">
+                            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 border-2 border-[#0a0a12] flex items-center justify-center text-xs font-bold shadow-lg">JP</div>
+                            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 border-2 border-[#0a0a12] flex items-center justify-center text-xs font-bold shadow-lg">MC</div>
+                            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 border-2 border-[#0a0a12] flex items-center justify-center text-xs font-bold shadow-lg">AL</div>
+                            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 border-2 border-[#0a0a12] flex items-center justify-center text-xs font-bold shadow-lg">+</div>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1 text-amber-400 text-sm">★★★★★ <span class="text-slate-500 ml-1">4.9</span></div>
+                            <p class="text-sm text-slate-500"><span class="text-white font-semibold">+50 afiliados</span> já automatizam com AFY</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side - Mockup -->
+                <div class="reveal-right hidden lg:block" style="transition-delay: 0.2s;">
+                    <div class="relative">
+                        <!-- Main card -->
+                        <div class="glass-card rounded-3xl p-1 shadow-2xl shadow-purple-600/10 animate-pulse-glow">
+                            <div class="rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 p-6 space-y-5">
+                                <!-- Window dots -->
+                                <div class="flex items-center gap-2 mb-6">
+                                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                    <div class="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                                    <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                                    <span class="text-xs text-slate-600 ml-2 font-mono">afy@dashboard ~ %</span>
+                                </div>
+
+                                <!-- Mini graphs -->
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="bg-purple-500/10 rounded-2xl p-4 border border-purple-500/20">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                            </svg>
+                                            <span class="text-xs text-slate-500">Publicados</span>
+                                        </div>
+                                        <div class="stat-value text-3xl font-black text-purple-400">127</div>
+                                        <div class="flex items-center gap-1 text-xs text-emerald-500 mt-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                                            </svg>
+                                            +23% esse mês
+                                        </div>
+                                    </div>
+                                    <div class="bg-blue-500/10 rounded-2xl p-4 border border-blue-500/20">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                            <span class="text-xs text-slate-500">Views</span>
+                                        </div>
+                                        <div class="stat-value text-3xl font-black text-blue-400">12.8K</div>
+                                        <div class="flex items-center gap-1 text-xs text-emerald-500 mt-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                                            </svg>
+                                            +8% essa semana
+                                        </div>
+                                    </div>
+                                    <div class="bg-emerald-500/10 rounded-2xl p-4 border border-emerald-500/20">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                            <span class="text-xs text-slate-500">Comissões</span>
+                                        </div>
+                                        <div class="stat-value text-3xl font-black text-emerald-400">R$ 3.2K</div>
+                                        <div class="flex items-center gap-1 text-xs text-emerald-500 mt-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                                            </svg>
+                                            +15% esse mês
+                                        </div>
+                                    </div>
+                                    <div class="bg-pink-500/10 rounded-2xl p-4 border border-pink-500/20">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                            </svg>
+                                            <span class="text-xs text-slate-500">Vendas</span>
+                                        </div>
+                                        <div class="stat-value text-3xl font-black text-pink-400">89</div>
+                                        <div class="flex items-center gap-1 text-xs text-emerald-500 mt-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                                            </svg>
+                                            +12% essa semana
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Platforms row -->
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded-2xl">
+                                    <span class="text-xl platform-icon cursor-default">📸</span>
+                                    <span class="text-xl platform-icon cursor-default">🎵</span>
+                                    <span class="text-xl platform-icon cursor-default">👍</span>
+                                    <span class="text-xl platform-icon cursor-default">▶️</span>
+                                    <span class="text-xl platform-icon cursor-default">📌</span>
+                                </div>
+
+                                <!-- Status bar -->
+                                <div class="flex items-center justify-between text-xs">
+                                    <div class="flex items-center gap-2 text-slate-500">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                        <span>Robô ativo • Próximo post em 12 min</span>
+                                    </div>
+                                    <div class="flex items-center gap-1 text-purple-400">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                        IA Ativa
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Floating badges -->
+                        <div class="absolute -bottom-3 -left-4 glass-strong rounded-2xl px-5 py-3 shadow-xl border-purple-500/20 animate-float">
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl">🤖</span>
+                                <div>
+                                    <span class="text-sm font-semibold text-purple-300">Cross-posting</span>
+                                    <div class="text-xs text-slate-500">Automático</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute -top-4 -right-4 glass-strong rounded-2xl px-5 py-3 shadow-xl border-blue-500/20 animate-float-delayed">
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl">🧠</span>
+                                <div>
+                                    <span class="text-sm font-semibold text-blue-300">IA Generativa</span>
+                                    <div class="text-xs text-slate-500">Legendas + Hashtags</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-float">
+            <span class="text-xs text-slate-600 tracking-widest uppercase">Role para ver mais</span>
+            <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ===== PLATFORMS MARQUEE ===== -->
+    <section class="py-12 border-t border-white/5 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <p class="text-center text-xs text-slate-600 uppercase tracking-[0.2em] mb-8">Plataformas Suportadas</p>
+            <div class="flex flex-wrap items-center justify-center gap-8 md:gap-16">
+                <div class="flex items-center gap-3 text-slate-400 platform-icon cursor-default">
+                    <span class="text-3xl">📸</span>
+                    <span class="font-semibold text-sm">Instagram</span>
+                </div>
+                <div class="flex items-center gap-3 text-slate-400 platform-icon cursor-default">
+                    <span class="text-3xl">🎵</span>
+                    <span class="font-semibold text-sm">TikTok</span>
+                </div>
+                <div class="flex items-center gap-3 text-slate-400 platform-icon cursor-default">
+                    <span class="text-3xl">👍</span>
+                    <span class="font-semibold text-sm">Facebook</span>
+                </div>
+                <div class="flex items-center gap-3 text-slate-400 platform-icon cursor-default">
+                    <span class="text-3xl">▶️</span>
+                    <span class="font-semibold text-sm">YouTube Shorts</span>
+                </div>
+                <div class="flex items-center gap-3 text-slate-400 platform-icon cursor-default">
+                    <span class="text-3xl">📌</span>
+                    <span class="font-semibold text-sm">Pinterest</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== WHAT IS AFY ===== -->
+    <section class="py-20 lg:py-28 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="reveal-left space-y-6">
+                    <span class="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 rounded-full border border-purple-500/20 text-sm text-purple-300">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        O que é o AFY?
+                    </span>
+                    <h2 class="text-4xl sm:text-5xl font-black tracking-tight">
+                        O Robô que<br>
+                        <span class="text-gradient">Posta por Você</span>
+                    </h2>
+                    <p class="text-lg text-slate-400 leading-relaxed">
+                        O <strong class="text-white">AFY</strong> é um sistema inteligente de automação para 
+                        <strong class="text-purple-300">afiliados digitais</strong>. Ele publica vídeos automaticamente 
+                        em múltiplas redes sociais, gera legendas com IA e responde comentários — 
+                        <strong class="text-white">sem precisar de API keys</strong>.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <span class="text-slate-300"><strong class="text-white">Login Assistido:</strong> Você faz login 1 vez no Chrome, o Bot salva a sessão.</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <span class="text-slate-300"><strong class="text-white">Cross-Posting:</strong> Um vídeo publicado na conta de vários afiliados.</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <span class="text-slate-300"><strong class="text-white">IA Integrada:</strong> Legendas, hashtags e respostas geradas automaticamente.</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <span class="text-slate-300"><strong class="text-white">Agendador:</strong> Defina os horários e o robô posta automaticamente.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal-right">
+                    <div class="glass-card rounded-3xl p-8 relative">
+                        <div class="code-block">
+                            <span class="comment"># AFY - Automação Inteligente</span>
+                            <span class="comment"># Sem API Keys! 😎</span>
+                            <br><br>
+                            <span class="keyword">from</span> afy <span class="keyword">import</span> <span class="function">AutoBot</span>
+                            <br><br>
+                            bot = <span class="function">AutoBot</span>()<br>
+                            <span class="variable">bot</span>.<span class="function">login</span>(<span class="string">"Instagram"</span>)  <span class="comment"># Login 1x</span><br>
+                            <span class="variable">bot</span>.<span class="function">post</span>(<span class="string">"video.mp4"</span>)       <span class="comment"># Posta automático</span><br>
+                            <span class="variable">bot</span>.<span class="function">schedule</span>(<span class="string">"08:00, 12:00, 18:00"</span>)<br>
+                            <span class="variable">bot</span>.<span class="function">auto_reply</span>()              <span class="comment"># IA responde</span>
+                            <br><br>
+                            <span class="comment"># 📤 Publicando em 5 redes...</span>
+                            <span class="comment"># ✅ 127 vídeos publicados</span>
+                            <span class="comment"># 💰 R$ 3.2K em comissões</span>
+                        </div>
+                        <div class="absolute -bottom-3 -right-3 glass-strong rounded-2xl px-4 py-2 text-sm border-emerald-500/20">
+                            🚀 100% funcional
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section id="features" class="py-20 lg:py-28 relative z-10 bg-[#0c0c18]/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="reveal">
+                    <span class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 rounded-full border border-blue-500/20 text-sm text-blue-300 mb-6">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        Funcionalidades
+                    </span>
+                </div>
+                <h2 class="reveal text-4xl sm:text-5xl font-black tracking-tight mb-4">
+                    Tudo que Você Precisa para<br>
+                    <span class="text-gradient">Vender Muito Mais</span>
+                </h2>
+                <p class="reveal text-lg text-slate-400" style="transition-delay: 0.1s;">
+                    Automação inteligente que trabalha 24/7 enquanto você foca no que importa.
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="reveal-scale glass-card rounded-2xl p-6 feature-card group">
+                    <div class="feature-icon-wrap w-14 h-14 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center mb-5 shadow-lg shadow-purple-600/20">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Bot Inteligente</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Posta vídeos automaticamente em várias redes. Faça upload 1 vez, o Bot distribui em todas as contas conectadas.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="reveal-scale glass-card rounded-2xl p-6 feature-card group">
+                    <div class="feature-icon-wrap w-14 h-14 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center mb-5 shadow-lg shadow-blue-600/20">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">IA Generativa</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Legendas em 4 tons diferentes, hashtags relevantes e respostas a comentários geradas por IA (Gemini ou ChatGPT).</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="reveal-scale glass-card rounded-2xl p-6 feature-card group">
+                    <div class="feature-icon-wrap w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center mb-5 shadow-lg shadow-emerald-600/20">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Cross-Posting</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Um vídeo do criador publicado nas contas de vários afiliados. O link de afiliado do proprietário nunca muda.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="reveal-scale glass-card rounded-2xl p-6 feature-card group">
+                    <div class="feature-icon-wrap w-14 h-14 rounded-xl bg-gradient-to-br from-amber-600 to-orange-600 flex items-center justify-center mb-5 shadow-lg shadow-amber-600/20">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Login Assistido</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Conecte suas redes sem API keys. Faça login 1 vez no Chrome real, o Bot salva a sessão para sempre.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="reveal-scale glass-card rounded-2xl p-6 feature-card group">
+                    <div class="feature-icon-wrap w-14 h-14 rounded-xl bg-gradient-to-br from-rose-600 to-pink-600 flex items-center justify-center mb-5 shadow-lg shadow-rose-600/20">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Agendamento Automático</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Defina horários (ex: 08:00, 12:00, 18:00) e o robô posta por você. Verifica a cada 5 minutos.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="reveal-scale glass-card rounded-2xl p-6 feature-card group">
+                    <div class="feature-icon-wrap w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center mb-5 shadow-lg shadow-indigo-600/20">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Dashboard em Tempo Real</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Métricas de visualizações, vendas, comissões e ranking entre afiliados. Gamificação completa!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STATS COUNTER ===== -->
+    <section class="py-16 lg:py-20 relative z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="glass-card rounded-3xl p-8 lg:p-12">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="text-center reveal-scale">
+                        <div class="stat-value text-4xl lg:text-5xl font-black text-purple-400">127</div>
+                        <div class="text-slate-500 text-sm mt-2">Vídeos Publicados</div>
+                    </div>
+                    <div class="text-center reveal-scale">
+                        <div class="stat-value text-4xl lg:text-5xl font-black text-blue-400">12.8K</div>
+                        <div class="text-slate-500 text-sm mt-2">Visualizações</div>
+                    </div>
+                    <div class="text-center reveal-scale">
+                        <div class="stat-value text-4xl lg:text-5xl font-black text-emerald-400">R$3.2K</div>
+                        <div class="text-slate-500 text-sm mt-2">Comissões Geradas</div>
+                    </div>
+                    <div class="text-center reveal-scale">
+                        <div class="stat-value text-4xl lg:text-5xl font-black text-amber-400">5</div>
+                        <div class="text-slate-500 text-sm mt-2">Redes Suportadas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section id="how-it-works" class="py-20 lg:py-28 relative z-10 bg-[#0c0c18]/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="reveal">
+                    <span class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 rounded-full border border-emerald-500/20 text-sm text-emerald-300 mb-6">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        Como Funciona
+                    </span>
+                </div>
+                <h2 class="reveal text-4xl sm:text-5xl font-black tracking-tight mb-4">
+                    Comece em <span class="text-gradient">4 Passos</span>
+                </h2>
+                <p class="reveal text-lg text-slate-400" style="transition-delay: 0.1s;">
+                    Do cadastro à primeira postagem em menos de 10 minutos.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+                <!-- Connector line -->
+                <div class="step-line hidden lg:block"></div>
+
+                <!-- Step 1 -->
+                <div class="text-center relative reveal-scale">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-2xl font-black shadow-2xl shadow-purple-600/30 relative z-10">
+                        1
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Crie sua Conta</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Cadastre-se gratuitamente em 30 segundos. Sem cartão de crédito.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center relative reveal-scale" style="transition-delay: 0.1s;">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center text-2xl font-black shadow-2xl shadow-blue-600/30 relative z-10">
+                        2
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Conecte suas Redes</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Faça login 1 vez no Chrome. Sua sessão fica salva para sempre.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center relative reveal-scale" style="transition-delay: 0.2s;">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center text-2xl font-black shadow-2xl shadow-emerald-600/30 relative z-10">
+                        3
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Adicione Produtos</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Cadastre seus links de afiliado e faça upload dos vídeos.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="text-center relative reveal-scale" style="transition-delay: 0.3s;">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-rose-600 to-pink-600 flex items-center justify-center text-2xl font-black shadow-2xl shadow-pink-600/30 relative z-10">
+                        4
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Ative o Robô</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Ligue o agendador e veja os vídeos sendo postados automaticamente.</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12 reveal">
+                <a href="dashboard.html" class="btn-gradient px-8 py-4 rounded-2xl text-base font-bold shadow-2xl shadow-purple-600/30 inline-flex items-center gap-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    Quero Começar Agora
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING ===== -->
+    <section id="pricing" class="py-20 lg:py-28 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="reveal">
+                    <span class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 rounded-full border border-amber-500/20 text-sm text-amber-300 mb-6">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Planos
+                    </span>
+                </div>
+                <h2 class="reveal text-4xl sm:text-5xl font-black tracking-tight mb-4">
+                    Simples e <span class="text-gradient">Transparente</span>
+                </h2>
+                <p class="reveal text-lg text-slate-400" style="transition-delay: 0.1s;">
+                    Comece grátis, escale quando precisar.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Free -->
+                <div class="reveal-scale glass-card rounded-3xl p-8">
+                    <div class="w-12 h-12 rounded-xl bg-slate-700 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-1">Free</h3>
+                    <p class="text-slate-500 text-sm mb-4">Para começar</p>
+                    <div class="mb-6">
+                        <span class="text-slate-500 text-sm">R$ </span>
+                        <span class="text-5xl font-black text-white">0</span>
+                        <span class="text-slate-500 text-sm">/mês</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            1 produto afiliado
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            2 redes sociais
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            5 vídeos na biblioteca
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-slate-600">
+                            <svg class="w-4 h-4 text-slate-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                            Cross-posting
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-slate-600">
+                            <svg class="w-4 h-4 text-slate-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                            IA para legendas
+                        </li>
+                    </ul>
+                    <a href="dashboard.html" class="btn w-full bg-slate-700/50 border border-slate-600 text-white hover:bg-slate-700 rounded-2xl py-3 font-medium transition-all">
+                        Começar Grátis
+                    </a>
+                </div>
+
+                <!-- Pro (Highlighted) -->
+                <div class="reveal-scale glass-card rounded-3xl p-8 border-purple-500/30 relative transform scale-105 shadow-2xl shadow-purple-600/20" style="transition-delay: 0.1s;">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-sm font-bold shadow-lg whitespace-nowrap animate-border-glow">
+                        🔥 MAIS POPULAR
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center mb-4 shadow-lg shadow-purple-600/30">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-1">Pro</h3>
+                    <p class="text-slate-500 text-sm mb-4">Para crescer</p>
+                    <div class="mb-6">
+                        <span class="text-slate-500 text-sm">R$ </span>
+                        <span class="text-5xl font-black text-white">49</span>
+                        <span class="text-slate-500 text-sm">/mês</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            Produtos ilimitados
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            Todas as redes sociais
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            Vídeos ilimitados
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            Cross-posting
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            IA para legendas e respostas
+                        </li>
+                    </ul>
+                    <a href="dashboard.html" class="btn-gradient w-full rounded-2xl py-3 font-bold text-center block shadow-lg shadow-purple-600/30">
+                        Assinar Pro
+                    </a>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="reveal-scale glass-card rounded-3xl p-8" style="transition-delay: 0.2s;">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center mb-4 shadow-lg shadow-blue-600/20">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-1">Enterprise</h3>
+                    <p class="text-slate-500 text-sm mb-4">Para agências</p>
+                    <div class="mb-6">
+                        <span class="text-slate-500 text-sm">R$ </span>
+                        <span class="text-5xl font-black text-white">149</span>
+                        <span class="text-slate-500 text-sm">/mês</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            Tudo do Pro
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            Múltiplos afiliados
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            Suporte prioritário
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            API dedicada
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            White label
+                        </li>
+                    </ul>
+                    <a href="dashboard.html" class="btn w-full bg-blue-600/20 border border-blue-700/40 text-blue-300 hover:bg-blue-600/30 rounded-2xl py-3 font-medium transition-all">
+                        Fale Conosco
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="py-20 lg:py-28 relative z-10 bg-[#0c0c18]/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="reveal">
+                    <span class="inline-flex items-center gap-2 px-4 py-2 bg-rose-500/10 rounded-full border border-rose-500/20 text-sm text-rose-300 mb-6">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                        Depoimentos
+                    </span>
+                </div>
+                <h2 class="reveal text-4xl sm:text-5xl font-black tracking-tight mb-4">
+                    O que os <span class="text-gradient">Afiliados</span> Dizem
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="reveal-scale testimonial-card glass-card rounded-2xl p-6">
+                    <div class="flex items-center gap-1 text-amber-400 mb-4">★★★★★</div>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-6">"O AFY mudou meu jogo. Publico em 3 redes ao mesmo tempo sem fazer nada. Minhas comissões subiram 40% em 2 meses!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-sm font-bold">JP</div>
+                        <div>
+                            <div class="text-sm font-semibold">João Pedro</div>
+                            <div class="text-xs text-slate-500">Afiliado Shopee • 6 meses</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal-scale testimonial-card glass-card rounded-2xl p-6" style="transition-delay: 0.1s;">
+                    <div class="flex items-center gap-1 text-amber-400 mb-4">★★★★★</div>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-6">"Já usei várias ferramentas, mas nenhuma é tão simples quanto o AFY. O login assistido é genial — sem precisar de API key de nada!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-sm font-bold">MC</div>
+                        <div>
+                            <div class="text-sm font-semibold">Maria Clara</div>
+                            <div class="text-xs text-slate-500">Afiliada Amazon • 4 meses</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal-scale testimonial-card glass-card rounded-2xl p-6" style="transition-delay: 0.2s;">
+                    <div class="flex items-center gap-1 text-amber-400 mb-4">★★★★★</div>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-6">"Uso para minha equipe de 5 afiliados. O cross-posting é fantástico — um vídeo publicado por todo mundo. Recomendo demais!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-sm font-bold">AL</div>
+                        <div>
+                            <div class="text-sm font-semibold">André Lima</div>
+                            <div class="text-xs text-slate-500">Gestor de Afiliados • 1 ano</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section id="faq" class="py-20 lg:py-28 relative z-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="reveal">
+                    <span class="inline-flex items-center gap-2 px-4 py-2 bg-pink-500/10 rounded-full border border-pink-500/20 text-sm text-pink-300 mb-6">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        FAQ
+                    </span>
+                </div>
+                <h2 class="reveal text-4xl sm:text-5xl font-black tracking-tight mb-4">
+                    Perguntas <span class="text-gradient">Frequentes</span>
+                </h2>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ 1 -->
+                <div class="glass-card rounded-2xl overflow-hidden faq-item">
+                    <button class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-sm sm:text-base">Preciso de API keys das redes sociais?</span>
+                        <svg class="faq-chevron w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Não! O AFY usa o <strong class="text-white">Chrome real</strong> para fazer login. Você abre o navegador, faz login manualmente 1 vez, e o sistema salva sua sessão. Depois disso, o Bot consegue postar sem precisar de nenhuma API key das redes sociais.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="glass-card rounded-2xl overflow-hidden faq-item">
+                    <button class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-sm sm:text-base">O que é o cross-posting?</span>
+                        <svg class="faq-chevron w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Cross-posting permite que um vídeo de um afiliado seja publicado nas contas de outros afiliados. O link de afiliado do proprietário original <strong class="text-white">nunca muda</strong> — ou seja, se João cria um vídeo e Maria publica na conta dela, o link continua sendo do João.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="glass-card rounded-2xl overflow-hidden faq-item">
+                    <button class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-sm sm:text-base">Como a IA gera as legendas?</span>
+                        <svg class="faq-chevron w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Usamos <strong class="text-white">Google Gemini</strong> (gratuito) ou <strong class="text-white">OpenAI ChatGPT</strong> (pago). Você escolhe. A IA gera legendas em 4 tons diferentes (casual, profissional, engraçado, urgente), hashtags relevantes e até respostas para comentários. Se você não configurar nenhuma API, o sistema usa templates inteligentes offline.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="glass-card rounded-2xl overflow-hidden faq-item">
+                    <button class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-sm sm:text-base">Quanto tempo leva para configurar?</span>
+                        <svg class="faq-chevron w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Cerca de <strong class="text-white">5 a 10 minutos</strong>. O onboarding guiado tem 4 passos: dados, redes sociais, produto e vídeo. Depois de configurar, o robô já começa a postar automaticamente nos horários que você definir.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="glass-card rounded-2xl overflow-hidden faq-item">
+                    <button class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-sm sm:text-base">Posso cancelar quando quiser?</span>
+                        <svg class="faq-chevron w-5 h-5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-5 sm:px-6 pb-5 sm:pb-6">
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Sim! <strong class="text-white">Sem multa, sem burocracia</strong>. Seus dados ficam salvos por 30 dias caso queira voltar. Você é livre para cancelar quando quiser.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA FINAL ===== -->
+    <section class="py-20 lg:py-28 relative z-10">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6">
+            <div class="reveal-scale glass-card rounded-3xl p-10 lg:p-16 border-purple-500/20 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-pink-600/10 pointer-events-none"></div>
+                <div class="relative z-10 text-center">
+                    <h2 class="text-3xl sm:text-5xl font-black mb-4">
+                        Pronto para <span class="text-gradient">Automatizar</span> suas Vendas?
+                    </h2>
+                    <p class="text-lg text-slate-400 mb-8 max-w-2xl mx-auto">
+                        Junte-se a dezenas de afiliados que já estão usando o AFY para publicar vídeos e vender mais com IA.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="dashboard.html" class="btn-gradient px-10 py-4 rounded-2xl text-base font-bold shadow-2xl shadow-purple-600/30 inline-flex items-center gap-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            Acessar o Bot
+                        </a>
+                        <a href="dashboard.html" class="btn-gradient-outline px-10 py-4 rounded-2xl text-base font-medium inline-flex items-center gap-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                            Dashboard
+                        </a>
+                    </div>
+                    <p class="text-slate-500 text-sm mt-6">🚀 Sem cartão de crédito • Cadastro em 30 segundos</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="border-t border-white/5 py-12 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div class="reveal-scale">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center shadow-lg">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <span class="font-bold text-2xl text-gradient">AFY</span>
+                    </div>
+                    <p class="text-sm text-slate-500">Plataforma inteligente de automação para afiliados.</p>
+                    <p class="text-sm text-slate-600 mt-2">Feito com ❤️ no Brasil</p>
+                </div>
+                <div class="reveal-scale" style="transition-delay: 0.05s;">
+                    <h4 class="font-semibold mb-4 text-sm uppercase tracking-wider text-slate-400">Produto</h4>
+                    <ul class="space-y-3 text-sm text-slate-500">
+                        <li><a href="#features" class="hover:text-white transition-colors">Funcionalidades</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition-colors">Planos</a></li>
+                        <li><a href="#faq" class="hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="dashboard.html" class="hover:text-purple-400 transition-colors">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="reveal-scale" style="transition-delay: 0.1s;">
+                    <h4 class="font-semibold mb-4 text-sm uppercase tracking-wider text-slate-400">Plataformas</h4>
+                    <ul class="space-y-3 text-sm text-slate-500">
+                        <li class="flex items-center gap-2">📸 Instagram</li>
+                        <li class="flex items-center gap-2">🎵 TikTok</li>
+                        <li class="flex items-center gap-2">👍 Facebook</li>
+                        <li class="flex items-center gap-2">▶️ YouTube Shorts</li>
+                        <li class="flex items-center gap-2">📌 Pinterest</li>
+                    </ul>
+                </div>
+                <div class="reveal-scale" style="transition-delay: 0.15s;">
+                    <h4 class="font-semibold mb-4 text-sm uppercase tracking-wider text-slate-400">Acesso</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="dashboard.html" class="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors font-medium">
+                            🔒 Acessar Dashboard
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/5 pt-8 text-center text-sm text-slate-600">
+                © 2026 AFY. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // ===== LUCIDE ICONS =====
+        lucide.createIcons();
+
+        // ===== PARTICLES =====
+        (function initParticles() {
+            const container = document.getElementById('particles');
+            if (!container) return;
+            const count = 50;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = Math.random() * 3 + 1;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animation = `float ${5 + Math.random() * 10}s ease-in-out ${Math.random() * 5}s infinite`;
+                p.style.opacity = 0.2 + Math.random() * 0.4;
+                container.appendChild(p);
+            }
+        })();
+
+        // ===== NAVBAR SCROLL =====
+        const navbar = document.getElementById('navbar');
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+
+        // Mobile menu
+        let menuOpen = false;
+        menuBtn.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            mobileMenu.classList.toggle('mobile-menu-open', menuOpen);
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuOpen = false;
+                mobileMenu.classList.remove('mobile-menu-open');
+            });
+        });
+
+        // ===== SCROLL REVEAL =====
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // ===== FAQ =====
+        function toggleFaq(btn) {
+            const item = btn.closest('.faq-item');
+            const answer = item.querySelector('.faq-answer');
+            const chevron = item.querySelector('.faq-chevron');
+            const isOpen = answer.classList.contains('open');
+            
+            // Close all
+            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+            document.querySelectorAll('.faq-chevron').forEach(c => c.classList.remove('open'));
+            
+            if (!isOpen) {
+                answer.classList.add('open');
+                chevron.classList.add('open');
+            }
+        }
+
+        // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

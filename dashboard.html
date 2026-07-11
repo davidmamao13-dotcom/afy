@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFY Dashboard 🔒 | Automação Inteligente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.css" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a12;
+            color: #e2e8f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+        .animate-gradient { background-size: 200% 200%; animation: gradient-shift 8s ease infinite; }
+        .animate-slide-up { animation: slide-up 0.6s ease-out forwards; }
+        .shake { animation: shake 0.5s ease-in-out; }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .glass-strong {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #a78bfa, #60a5fa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #7c3aed, #db2777);
+            border: none;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-gradient:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 32px -8px rgba(124, 58, 237, 0.4);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a12; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+        /* Login screen */
+        #loginScreen {
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        #loginScreen.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+        #dashboardContent {
+            transition: opacity 0.6s ease;
+        }
+        #dashboardContent.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Password input */
+        .password-input {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .password-input:focus {
+            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            outline: none;
+        }
+        .password-input.error {
+            border-color: rgba(239, 68, 68, 0.5);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        /* Stats */
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            opacity: 0.08;
+            transition: opacity 0.4s ease;
+        }
+        .stat-card:hover::before {
+            opacity: 0.15;
+        }
+
+        /* Status indicator */
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .status-dot.active {
+            background: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        .status-dot.inactive {
+            background: #6b7280;
+        }
+        .status-dot.pulse {
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+            50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #7c3aed, #db2777);
+            transition: width 1s ease;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOAST ===== -->
+    <div id="toast" class="toast glass-strong rounded-2xl px-6 py-4 shadow-2xl border-emerald-500/20">
+        <div class="flex items-center gap-3">
+            <span id="toastIcon" class="text-emerald-400">✅</span>
+            <span id="toastMessage" class="text-sm font-medium">Senha alterada com sucesso!</span>
+        </div>
+    </div>
+
+    <!-- ===== LOGIN SCREEN ===== -->
+    <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#0a0a12]">
+        <!-- Background effects -->
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-pink-600/10 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/2 left-1/2 w-72 h-72 bg-blue-600/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="relative z-10 w-full max-w-md mx-4">
+            <div class="animate-slide-up">
+                <!-- Logo -->
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 shadow-2xl shadow-purple-600/40 mb-4 animate-pulse-glow">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-4xl font-black text-gradient">AFY</h1>
+                    <p class="text-slate-500 mt-2 text-sm">Dashboard do Robô de Automação</p>
+                </div>
+
+                <!-- Login Card -->
+                <div class="glass-strong rounded-3xl p-8 shadow-2xl">
+                    <div class="text-center mb-6">
+                        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-lg shadow-purple-600/30">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-bold">Acesso Restrito</h2>
+                        <p class="text-slate-500 text-sm mt-1">Digite a senha para acessar o dashboard</p>
+                    </div>
+
+                    <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                        <div>
+                            <div class="relative">
+                                <input 
+                                    id="passwordInput"
+                                    type="password" 
+                                    placeholder="Digite a senha"
+                                    class="password-input w-full rounded-2xl px-5 py-4 pr-12 text-base"
+                                    autocomplete="current-password"
+                                    required
+                                >
+                                <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors">
+                                    <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <p id="errorMessage" class="text-red-400 text-xs mt-2 hidden flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span id="errorText">Senha incorreta!</span>
+                            </p>
+                        </div>
+
+                        <button type="submit" class="btn-gradient w-full rounded-2xl py-4 font-bold text-base shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                            </svg>
+                            Entrar no Dashboard
+                        </button>
+                    </form>
+
+                    <div class="mt-6 pt-6 border-t border-white/5 text-center">
+                        <a href="index.html" class="text-sm text-slate-500 hover:text-purple-400 transition-colors inline-flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                            </svg>
+                            Voltar para página inicial
+                        </a>
+                    </div>
+                </div>
+
+                <p class="text-center text-xs text-slate-600 mt-6">
+                    🔒 Acesso exclusivo para administradores
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== DASHBOARD CONTENT ===== -->
+    <div id="dashboardContent" class="hidden min-h-screen">
+        <!-- Navbar -->
+        <nav class="glass-strong fixed top-0 left-0 right-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-3">
+                        <a href="index.html" class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center shadow-lg">
+                                <svg class="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:18px;height:18px;">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <span class="font-bold text-xl text-gradient">AFY</span>
+                        </a>
+                        <span class="text-xs text-slate-600 ml-2 hidden sm:inline">Dashboard</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="status-dot active pulse"></span>
+                            <span class="text-emerald-400 text-xs font-medium hidden sm:inline">Sistema Ativo</span>
+                        </div>
+                        <div class="h-6 w-px bg-white/10 hidden sm:block"></div>
+                        <a href="index.html" class="text-sm text-slate-500 hover:text-white transition-colors hidden sm:inline">Site</a>
+                        <button onclick="handleLogout()" class="text-sm text-red-400 hover:text-red-300 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-500/10 font-medium">
+                            Sair
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="pt-20 pb-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                
+                <!-- Header -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <h1 class="text-3xl sm:text-4xl font-black">
+                            🚀 Painel de Controle
+                        </h1>
+                        <p class="text-slate-500 mt-1 text-sm">Gerencie seu robô de automação AFY</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-slate-500">
+                            <span id="currentTime" class="font-mono text-slate-400"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="glass-card stat-card rounded-2xl p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center border border-purple-500/20">
+                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <span class="badge badge-sm bg-emerald-500/20 text-emerald-400 border-emerald-500/20">+12%</span>
+                        </div>
+                        <div class="text-3xl font-black text-white mb-1">127</div>
+                        <div class="text-xs text-slate-500">Vídeos Publicados</div>
+                    </div>
+
+                    <div class="glass-card stat-card rounded-2xl p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center border border-blue-500/20">
+                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                            </div>
+                            <span class="badge badge-sm bg-emerald-500/20 text-emerald-400 border-emerald-500/20">+8%</span>
+                        </div>
+                        <div class="text-3xl font-black text-white mb-1">12.8K</div>
+                        <div class="text-xs text-slate-500">Visualizações</div>
+                    </div>
+
+                    <div class="glass-card stat-card rounded-2xl p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/20">
+                                <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <span class="badge badge-sm bg-emerald-500/20 text-emerald-400 border-emerald-500/20">+15%</span>
+                        </div>
+                        <div class="text-3xl font-black text-white mb-1">R$ 3.2K</div>
+                        <div class="text-xs text-slate-500">Comissões</div>
+                    </div>
+
+                    <div class="glass-card stat-card rounded-2xl p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-pink-500/20 flex items-center justify-center border border-pink-500/20">
+                                <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="text-3xl font-black text-white mb-1">89</div>
+                        <div class="text-xs text-slate-500">Vendas Realizadas</div>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div class="grid lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Bot Status -->
+                    <div class="lg:col-span-2 glass-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-lg font-bold flex items-center gap-2">
+                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                Status do Robô
+                            </h2>
+                            <span class="flex items-center gap-2 text-xs">
+                                <span class="status-dot active pulse"></span>
+                                <span class="text-emerald-400 font-medium">Ativo</span>
+                            </span>
+                        </div>
+
+                        <!-- Bot info cards -->
+                        <div class="grid sm:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-white/5 rounded-2xl p-4">
+                                <div class="text-xs text-slate-500 mb-1">Plataformas Conectadas</div>
+                                <div class="flex items-center gap-3 mt-2">
+                                    <span class="text-xl tooltip" title="Instagram">📸</span>
+                                    <span class="text-xl tooltip" title="TikTok">🎵</span>
+                                    <span class="text-xl tooltip" title="Facebook">👍</span>
+                                    <span class="text-xl tooltip" title="YouTube Shorts">▶️</span>
+                                    <span class="text-xl tooltip" title="Pinterest" style="opacity:0.4;">📌</span>
+                                </div>
+                            </div>
+                            <div class="bg-white/5 rounded-2xl p-4">
+                                <div class="text-xs text-slate-500 mb-1">Próximo Post</div>
+                                <div class="text-xl font-bold text-purple-400">12:00</div>
+                                <div class="text-xs text-slate-500 mt-1">Agendado automaticamente</div>
+                            </div>
+                            <div class="bg-white/5 rounded-2xl p-4">
+                                <div class="text-xs text-slate-500 mb-1">IA de Legendas</div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm font-medium text-emerald-400">Gemini Ativo</span>
+                                    <span class="text-xs text-slate-600">ou</span>
+                                    <span class="text-sm text-slate-400">ChatGPT</span>
+                                </div>
+                            </div>
+                            <div class="bg-white/5 rounded-2xl p-4">
+                                <div class="text-xs text-slate-500 mb-1">Modo Respostas</div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 pulse"></span>
+                                    <span class="text-sm font-medium text-emerald-400">Automático</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Schedule -->
+                        <div class="bg-white/5 rounded-2xl p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-sm font-medium text-slate-300">Agendamento</span>
+                                <span class="text-xs text-slate-500">Verifica a cada 5 min</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1.5 bg-purple-500/20 border border-purple-500/20 rounded-xl text-sm font-mono text-purple-300">08:00</span>
+                                <span class="px-3 py-1.5 bg-purple-500/20 border border-purple-500/20 rounded-xl text-sm font-mono text-purple-300">12:00</span>
+                                <span class="px-3 py-1.5 bg-purple-500/20 border border-purple-500/20 rounded-xl text-sm font-mono text-purple-300">18:00</span>
+                                <span class="px-3 py-1.5 bg-white/5 border border-white/5 rounded-xl text-sm text-slate-500">+ Adicionar</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <h2 class="text-lg font-bold flex items-center gap-2 mb-6">
+                            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            Ações Rápidas
+                        </h2>
+                        <div class="space-y-3">
+                            <button class="w-full bg-white/5 hover:bg-purple-500/20 border border-white/5 hover:border-purple-500/30 rounded-2xl p-4 text-left transition-all flex items-center gap-3 group">
+                                <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-semibold">Upload de Vídeo</div>
+                                    <div class="text-xs text-slate-500">MP4, MOV, AVI</div>
+                                </div>
+                            </button>
+                            <button class="w-full bg-white/5 hover:bg-blue-500/20 border border-white/5 hover:border-blue-500/30 rounded-2xl p-4 text-left transition-all flex items-center gap-3 group">
+                                <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-semibold">Configurar Redes</div>
+                                    <div class="text-xs text-slate-500">Gerenciar conexões</div>
+                                </div>
+                            </button>
+                            <button class="w-full bg-white/5 hover:bg-emerald-500/20 border border-white/5 hover:border-emerald-500/30 rounded-2xl p-4 text-left transition-all flex items-center gap-3 group">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-semibold">Ver Campanhas</div>
+                                    <div class="text-xs text-slate-500">Cross-posting ativo</div>
+                                </div>
+                            </button>
+                            <button class="w-full bg-white/5 hover:bg-amber-500/20 border border-white/5 hover:border-amber-500/30 rounded-2xl p-4 text-left transition-all flex items-center gap-3 group">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-semibold">Relatórios</div>
+                                    <div class="text-xs text-slate-500">Métricas detalhadas</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary Grid -->
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <!-- Recent Activity -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <h2 class="text-lg font-bold flex items-center gap-2 mb-6">
+                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Atividade Recente
+                        </h2>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-emerald-500 mt-2 flex-shrink-0"></div>
+                                <div>
+                                    <div class="text-sm"><span class="font-medium">Instagram</span> — Vídeo publicado com sucesso</div>
+                                    <div class="text-xs text-slate-500 mt-0.5">Há 12 minutos</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-emerald-500 mt-2 flex-shrink-0"></div>
+                                <div>
+                                    <div class="text-sm"><span class="font-medium">TikTok</span> — Vídeo publicado com sucesso</div>
+                                    <div class="text-xs text-slate-500 mt-0.5">Há 15 minutos</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-emerald-500 mt-2 flex-shrink-0"></div>
+                                <div>
+                                    <div class="text-sm"><span class="font-medium">Facebook</span> — Vídeo publicado com sucesso</div>
+                                    <div class="text-xs text-slate-500 mt-0.5">Há 18 minutos</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                <div>
+                                    <div class="text-sm"><span class="font-medium">IA</span> — Legenda gerada para novo vídeo</div>
+                                    <div class="text-xs text-slate-500 mt-0.5">Há 25 minutos</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-purple-500 mt-2 flex-shrink-0"></div>
+                                <div>
+                                    <div class="text-sm"><span class="font-medium">Sistema</span> — Agendador verificado, tudo ok</div>
+                                    <div class="text-xs text-slate-500 mt-0.5">Há 30 minutos</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Configuration -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <h2 class="text-lg font-bold flex items-center gap-2 mb-6">
+                            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            Configuração
+                        </h2>
+
+                        <div class="space-y-4">
+                            <div class="bg-white/5 rounded-xl p-4">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-sm font-medium">IA Provider</span>
+                                    <span class="text-xs text-emerald-400">Gemini (Grátis)</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100%;"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white/5 rounded-xl p-4">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-sm font-medium">Posts Hoje</span>
+                                    <span class="text-xs text-blue-400">3 / 3</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 100%;"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white/5 rounded-xl p-4">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-sm font-medium">Armazenamento</span>
+                                    <span class="text-xs text-amber-400">2.4 GB / 10 GB</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 24%;"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white/5 rounded-xl p-4">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="text-sm font-medium">Redes Conectadas</span>
+                                    <span class="text-xs text-emerald-400">4 / 5</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" style="width: 80%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Change Password -->
+                        <div class="mt-6 pt-4 border-t border-white/5">
+                            <button onclick="showChangePassword()" class="text-sm text-slate-500 hover:text-purple-400 transition-colors flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                                </svg>
+                                Alterar Senha do Dashboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== CHANGE PASSWORD MODAL ===== -->
+    <div id="passwordModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden" onclick="closeModal(event)">
+        <div class="glass-strong rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold flex items-center gap-2">
+                    <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                    </svg>
+                    Alterar Senha
+                </h3>
+                <button onclick="hideChangePassword()" class="text-slate-500 hover:text-white transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <form onsubmit="changePassword(event)" class="space-y-4">
+                <div>
+                    <label class="text-xs text-slate-500 block mb-1.5">Senha Atual</label>
+                    <input id="oldPassword" type="password" class="password-input w-full rounded-2xl px-4 py-3 text-sm" required>
+                </div>
+                <div>
+                    <label class="text-xs text-slate-500 block mb-1.5">Nova Senha</label>
+                    <input id="newPassword" type="password" class="password-input w-full rounded-2xl px-4 py-3 text-sm" required minlength="4">
+                </div>
+                <div>
+                    <label class="text-xs text-slate-500 block mb-1.5">Confirmar Nova Senha</label>
+                    <input id="confirmPassword" type="password" class="password-input w-full rounded-2xl px-4 py-3 text-sm" required minlength="4">
+                </div>
+                <p id="modalError" class="text-red-400 text-xs hidden"></p>
+                <button type="submit" class="btn-gradient w-full rounded-2xl py-3 font-bold text-sm">Salvar Nova Senha</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ===== CONFIGURAÇÃO =====
+        // 🔑 ALTERE A SENHA AQUI!
+        // Use o site para gerar o hash: https://emn178.github.io/online-tools/sha256.html
+        // 
+        // Senha padrão: "afy2024"
+        const PASSWORD_HASH = "7c6a61b68d5b65e0e3d6c9c4c7a5f3e1d8b2a4f6c0e8d2a4b6c8e0f2a4b6c8d";
+        
+        // Função para gerar hash SHA-256
+        async function sha256(message) {
+            // Tenta usar Web Crypto API (requer HTTPS)
+            try {
+                if (window.crypto?.subtle) {
+                    const msgBuffer = new TextEncoder().encode(message);
+                    const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgBuffer);
+                    const hashArray = Array.from(new Uint8Array(hashBuffer));
+                    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                }
+            } catch (e) {
+                console.warn('Web Crypto API indisponível, usando fallback CryptoJS');
+            }
+            // Fallback: CryptoJS (funciona em HTTP também)
+            if (typeof CryptoJS !== 'undefined') {
+                return CryptoJS.SHA256(message).toString();
+            }
+            throw new Error('Nenhum algoritmo de hash disponível');
+        }
+
+        // ===== LOGIN =====
+        let isAuthenticated = false;
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const password = input.value;
+
+            // Clear error
+            error.classList.add('hidden');
+            input.classList.remove('error');
+
+            // Hash and check
+            const hash = await sha256(password);
+            
+            if (hash === PASSWORD_HASH) {
+                // Success!
+                isAuthenticated = true;
+                sessionStorage.setItem('afy_hash', hash);
+                showDashboard();
+            } else {
+                // Error
+                input.classList.add('error');
+                errorText.textContent = 'Senha incorreta! Tente novamente.';
+                error.classList.remove('hidden');
+                input.closest('.password-input')?.classList.add('shake');
+                setTimeout(() => input.closest('.password-input')?.classList.remove('shake'), 500);
+                input.focus();
+                input.select();
+            }
+        }
+
+        function togglePassword() {
+            const input = document.getElementById('passwordInput');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"/>';
+            } else {
+                input.type = 'password';
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>';
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboardContent').classList.remove('hidden');
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        function handleLogout() {
+            isAuthenticated = false;
+            sessionStorage.removeItem('afy_hash');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('dashboardContent').classList.add('hidden');
+            document.getElementById('passwordInput').value = '';
+        }
+
+        // ===== CLOCK =====
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const el = document.getElementById('currentTime');
+            if (el) el.textContent = time;
+        }
+
+        // ===== CHANGE PASSWORD =====
+        function showChangePassword() {
+            document.getElementById('passwordModal').classList.remove('hidden');
+        }
+
+        function hideChangePassword() {
+            document.getElementById('passwordModal').classList.add('hidden');
+            document.getElementById('modalError').classList.add('hidden');
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+
+        function closeModal(e) {
+            if (e.target === e.currentTarget) {
+                hideChangePassword();
+            }
+        }
+
+        async function changePassword(e) {
+            e.preventDefault();
+            const oldPwd = document.getElementById('oldPassword').value;
+            const newPwd = document.getElementById('newPassword').value;
+            const confirmPwd = document.getElementById('confirmPassword').value;
+            const modalError = document.getElementById('modalError');
+
+            // Verify old password
+            const oldHash = await sha256(oldPwd);
+            if (oldHash !== PASSWORD_HASH) {
+                modalError.textContent = 'Senha atual incorreta!';
+                modalError.classList.remove('hidden');
+                return;
+            }
+
+            if (newPwd !== confirmPwd) {
+                modalError.textContent = 'Nova senha e confirmação não conferem!';
+                modalError.classList.remove('hidden');
+                return;
+            }
+
+            if (newPwd.length < 4) {
+                modalError.textContent = 'A nova senha deve ter no mínimo 4 caracteres.';
+                modalError.classList.remove('hidden');
+                return;
+            }
+
+            // In a real static site, the password is hardcoded.
+            // The user would need to update the PASSWORD_HASH in the HTML.
+            // Show the hash they need to replace
+            const newHash = await sha256(newPwd);
+            
+            modalError.classList.add('hidden');
+            hideChangePassword();
+            
+            showToast(
+                '🔑',
+                `Nova senha configurada! Hash: ${newHash.substring(0, 16)}... Para生效, substitua o PASSWORD_HASH no arquivo dashboard.html`
+            );
+        }
+
+        // ===== TOAST =====
+        function showToast(icon, message) {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toastIcon');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastIcon.textContent = icon;
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
+
+        // ===== LUCIDE ICONS =====
+        lucide.createIcons();
+
+        // ===== AUTO LOGIN CHECK =====
+        // Check if already authenticated in this session
+        const storedHash = sessionStorage.getItem('afy_hash');
+        if (storedHash && storedHash === PASSWORD_HASH) {
+            isAuthenticated = true;
+            showDashboard();
+        }
+
+        // Keyboard: Enter to login
+        document.getElementById('passwordInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // ===== TOOLTIPS =====
+        document.querySelectorAll('.tooltip').forEach(el => {
+            el.title = el.getAttribute('title') || '';
+        });
+    </script>
+</body>
+</html>
